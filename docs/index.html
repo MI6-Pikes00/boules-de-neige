@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Avalanche — Boules de neige</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.11.1/core.css" />
+  <script type="module" src="https://pyscript.net/releases/2024.11.1/core.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #5a99ad;
+      color: white;
+      font-family: -apple-system, "Segoe UI", sans-serif;
+      overflow: hidden;
+    }
+    #wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 8px;
+    }
+    canvas {
+      background: #5a99ad;
+      touch-action: none;
+      max-width: 100%;
+      height: auto;
+    }
+    [hidden] { display: none !important; }
+    #loading { font-size: 1.2em; }
+    #controls { display: flex; gap: 16px; }
+    button {
+      font-size: 1.1em;
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+    #menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    #menu h1 { font-family: Impact, sans-serif; letter-spacing: 2px; margin: 0; }
+    #menu button { width: 260px; }
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <p id="loading">Chargement du jeu…</p>
+
+    <div id="menu" hidden>
+      <h1>AVALANCHE</h1>
+      <p>Guide le Père Noël, évite les boules de neige pendant 60 secondes.</p>
+      <button id="diff-facile" data-difficulty="facile">Facile</button>
+      <button id="diff-normal" data-difficulty="normal">Normal</button>
+      <button id="diff-difficile" data-difficulty="difficile">Difficile</button>
+    </div>
+
+    <canvas id="game" width="900" height="560" hidden></canvas>
+    <div id="controls" hidden>
+      <button id="btn-left">◀</button>
+      <button id="btn-power">Pouvoir (espace)</button>
+      <button id="btn-right">▶</button>
+    </div>
+  </div>
+
+  <script type="py" src="./main.py" config="./pyscript.toml"></script>
+</body>
+</html>
