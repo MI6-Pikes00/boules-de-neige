@@ -1,6 +1,13 @@
 """Le Père Noël : déplacement gauche/droite et invincibilité temporaire."""
 
-from .constants import SANTA_HEIGHT, SANTA_STEP, SANTA_WIDTH
+from .constants import (
+    SANTA_HEIGHT,
+    SANTA_HITBOX_BOTTOM,
+    SANTA_HITBOX_INSET_X,
+    SANTA_HITBOX_TOP,
+    SANTA_STEP,
+    SANTA_WIDTH,
+)
 
 
 class Santa:
@@ -25,8 +32,26 @@ class Santa:
 
     @property
     def bbox(self):
+        """Boîte englobante du sprite complet (utilisée pour garder le
+        personnage dans les limites de l'écran)."""
         x, y = self.canvas.coords(self.id)
         return x, y, x + SANTA_WIDTH, y + SANTA_HEIGHT
+
+    @property
+    def hitbox(self):
+        """Boîte de collision, plus petite que le sprite (qui a une marge
+        transparente autour du personnage) pour des collisions plus justes
+        visuellement."""
+        x, y = self.canvas.coords(self.id)
+        inset_x = SANTA_WIDTH * SANTA_HITBOX_INSET_X
+        top = SANTA_HEIGHT * SANTA_HITBOX_TOP
+        bottom = SANTA_HEIGHT * SANTA_HITBOX_BOTTOM
+        return (
+            x + inset_x,
+            y + top,
+            x + SANTA_WIDTH - inset_x,
+            y + SANTA_HEIGHT - bottom,
+        )
 
     def start_invincibility(self, duration_ticks):
         self.invincible = True

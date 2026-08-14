@@ -1,6 +1,9 @@
-"""Boule de neige : chute, rebond sur les bords et le sol, division de taille."""
+"""Boule de neige : chute avec gravité, rebond sur les bords et le sol,
+division de taille et perte d'énergie à chaque rebond."""
 
 import random
+
+from .constants import BOUNCE_ENERGY, GRAVITY, MAX_FALL_SPEED, WALL_ENERGY
 
 
 class Snowball:
@@ -9,31 +12,35 @@ class Snowball:
         self.screen_height = screen_height * 0.95
 
         self.x = random.randint(10, int(self.screen_width))
-        self.y = 64
+        self.y = -size
         self.size = size
+        self.speed_multiplier = speed_multiplier
 
-        self.speed_x = random.randint(-10, 10) * speed_multiplier
-        self.speed_y = random.randint(4, 8) * speed_multiplier
+        self.speed_x = random.uniform(-1.5, 1.5) * speed_multiplier
+        self.speed_y = random.uniform(0, 1.5) * speed_multiplier
 
         # True le temps d'une frame quand la boule vient de rebondir au sol
         # et a besoin que son sprite soit rafraîchi.
         self.just_split = False
 
     def move(self):
+        self.speed_y = min(self.speed_y + GRAVITY, MAX_FALL_SPEED)
         self.x += self.speed_x
         self.y += self.speed_y
 
-        if self.x > self.screen_width or self.x < 0:
-            self.speed_x = -self.speed_x
-
-        if self.y + self.size * 2 < 0:
-            self.speed_y = -self.speed_y
+        half = self.size / 2
+        if self.x - half < 0:
+            self.x = half
+            self.speed_x = -self.speed_x * WALL_ENERGY + random.uniform(-0.3, 0.3)
+        elif self.x + half > self.screen_width:
+            self.x = self.screen_width - half
+            self.speed_x = -self.speed_x * WALL_ENERGY + random.uniform(-0.3, 0.3)
 
         self.just_split = False
         if self.y + self.size * 2 >= self.screen_height:
             self.size = int(self.size / 2)
-            self.y -= self.speed_y // 2
-            self.speed_y = -self.speed_y // 2
+            self.speed_y = -abs(self.speed_y) * BOUNCE_ENERGY
+            self.speed_x += random.uniform(-1, 1) * self.speed_multiplier
             self.just_split = True
 
     @property

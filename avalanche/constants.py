@@ -13,9 +13,22 @@ INVINCIBILITY_DURATION = 2  # secondes
 SNOWBALL_SIZES = (4, 8, 16, 32, 64)
 MIN_SNOWBALL_SIZE = 4
 
+# Chute avec gravité + perte d'énergie au rebond (plutôt qu'une vitesse
+# constante) pour des trajectoires en arc plus naturelles. Valeurs en
+# pixels par frame (le jeu tourne à FPS constant via Tk .after()).
+GRAVITY = 0.22
+BOUNCE_ENERGY = 0.55  # vitesse verticale conservée après un rebond au sol
+WALL_ENERGY = 0.85    # vitesse horizontale conservée après un rebond mural
+MAX_FALL_SPEED = 11
+
 SANTA_STEP = 50
 SANTA_WIDTH = 88
 SANTA_HEIGHT = 155
+# La hitbox est plus petite que le sprite (marge transparente autour du
+# personnage) pour des collisions plus justes visuellement.
+SANTA_HITBOX_INSET_X = 0.24
+SANTA_HITBOX_TOP = 0.12
+SANTA_HITBOX_BOTTOM = 0.04
 
 BACKGROUND_COLOR = "#5a99ad"
 MENU_BACKGROUND = "#b19cd9"
